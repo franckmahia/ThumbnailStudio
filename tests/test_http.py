@@ -152,3 +152,15 @@ def test_google_guide_and_callback_fail_safely_without_client(studio):
         urlopen(studio + "/api/youtube/oauth/callback?state=wrong&code=private-code")
     assert failure.value.code == 400
     assert b"private-code" not in failure.value.read()
+
+
+def test_missing_review_image_returns_not_found(studio):
+    identifier = "a" * 32
+    server.YOUTUBE._save(
+        f"reviews/{identifier}.json",
+        {"id": identifier, "status": "pending", "mime": "image/png"},
+    )
+    with pytest.raises(HTTPError) as failure:
+        urlopen(f"{studio}/api/youtube/reviews/{identifier}/image")
+    assert failure.value.code == 404
+    assert "error" in json.load(failure.value)
