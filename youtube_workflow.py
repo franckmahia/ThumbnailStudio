@@ -480,9 +480,11 @@ class YouTubeWorkflow:
     def review_image(self, identifier):
         with self.lock:
             record = self._review(identifier)
-            return (
-                self.root / "reviews" / (identifier + ".image")
-            ).read_bytes(), record["mime"]
+            try:
+                data = (self.root / "reviews" / (identifier + ".image")).read_bytes()
+            except OSError:
+                raise YouTubeError("Aperçu introuvable.", 404) from None
+            return data, record["mime"]
 
     def stage(self, payload):
         identifier = uuid.uuid4().hex

@@ -232,7 +232,15 @@ def start_codex_job(brief):
         finally:
             GENERATION_LOCK.release()
 
-    threading.Thread(target=work, daemon=True).start()
+    try:
+        threading.Thread(target=work, daemon=True).start()
+    except RuntimeError:
+        with JOBS_LOCK:
+            JOBS.pop(identifier, None)
+        GENERATION_LOCK.release()
+        raise ClientError(
+            "Impossible de démarrer la génération. Réessaie.", 503
+        ) from None
     return {"job": identifier, "status": "running"}
 
 

@@ -207,3 +207,19 @@ def test_portrait_requires_explicit_confirmation_and_is_attached_as_pixels(
     with patch.object(server.subprocess, "run", side_effect=native):
         output = server.generate_codex_image(brief)
     assert output["renderMode"] == "complete"
+
+
+def test_generation_lock_is_released_when_the_job_thread_cannot_start(monkeypatch):
+    class BrokenThread:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def start(self):
+            raise RuntimeError("can't start new thread")
+
+    monkeypatch.setattr(server.threading, "Thread", BrokenThread)
+    with pytest.raises(server.ClientError) as failure:
+        server.start_codex_job({"title": "Test"})
+    assert failure.value.status == 503
+    assert server.GENERATION_LOCK.acquire(blocking=False)
+    server.GENERATION_LOCK.release()
