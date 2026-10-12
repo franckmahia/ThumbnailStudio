@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#191922">
+  <meta name="description" content="Ton studio local de miniatures YouTube : imagine, compose, ajuste et exporte.">
+  <title>Thumbnail Studio — Une idée. Trois perspectives.</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#studio" aria-label="Thumbnail Studio, accueil"><img src="/favicon.svg" alt="" width="39" height="39"><span>thumbnail<span class="brand-sub">STUDIO</span></span></a>
+    <div class="workspace-label">TON ESPACE CRÉATIF</div>
+    <nav aria-label="Navigation principale">
+      <button class="nav-item active" data-view="studio"><span data-icon="sparkles"></span>Créer une miniature<span class="nav-plus">+</span></button>
+      <button class="nav-item" data-view="library"><span data-icon="grid"></span>Ma bibliothèque<span class="nav-count" id="project-count">0</span></button>
+      <button class="nav-item" data-view="guide"><span data-icon="book"></span>Le petit guide<span class="nav-external">↗</span></button>
+    </nav>
+    <div class="sidebar-note"><div class="note-orbit">✧</div><h3>L’idée fait le déclic.</h3><p>Une image forte. Quelques mots justes. Ta prochaine vidéo commence ici.</p><button class="text-button" id="show-inspiration">Un peu d’inspiration <span>↗</span></button></div>
+    <div class="sidebar-bottom"><span class="local-dot"></span>Studio local <span class="local-badge">PRIVÉ</span><p>Des créations qui restent à toi.</p></div>
+    <button class="profile" id="settings-button" aria-label="Mon studio : connexion et sauvegardes"><span class="avatar">FM</span><span>Mon studio<small>Sur cet ordinateur</small></span><span data-icon="settings"></span></button>
+  </aside>
+
+  <div class="app-shell">
+    <header class="topbar"><div class="breadcrumb">Mon espace <span>/</span> <strong id="breadcrumb-current">Créer une miniature</strong></div><div class="top-actions"><span class="pro-pill"><span>✦</span> Codex · ChatGPT Pro</span><button class="icon-button" id="help-button" aria-label="Ouvrir le guide"><span data-icon="help"></span></button></div></header>
+    <main>
+      <section id="studio-view" class="view">
+        <div class="page-heading"><div><div class="eyebrow"><span></span> MOINS DE DESIGN, PLUS D’IDÉES</div><h1>Ta vidéo. <span>Un nouveau déclic.</span></h1><p>Colle le lien, crée avec ton visage, puis valide avant d’installer.</p></div><button class="secondary new-button" id="new-project"><span data-icon="plus"></span>Nouveau projet</button></div>
+        <section class="youtube-import" aria-labelledby="import-heading">
+          <div><h2 id="import-heading">Commencer avec une vidéo YouTube</h2><p>Le titre et le visuel sont importés. Tu gardes la main avant chaque envoi.</p></div>
+          <form id="youtube-import-form"><label class="visually-hidden" for="youtube-url">Lien de la vidéo YouTube</label><input id="youtube-url" type="url" required placeholder="https://www.youtube.com/watch?v=…"><button class="primary" id="youtube-import-button">Importer la vidéo ↗</button></form>
+          <p id="youtube-import-status" role="status"></p>
+        </section>
+        <div class="studio-layout">
+          <section class="brief-panel" aria-labelledby="brief-heading">
+            <div class="panel-heading"><span class="step-number">01</span><h2 id="brief-heading">Le point de départ</h2><span data-icon="sliders"></span></div>
+            <form id="brief-form">
+              <section id="portrait-panel" class="portrait-panel hidden" aria-label="Référence de ton visage">
+                <div class="portrait-heading"><img id="portrait-preview" alt="Image de référence à vérifier"><div><strong>Ton visage, en référence</strong><p id="portrait-source">Visuel actuel de la vidéo</p><label class="text-button" for="portrait-input">Choisir une autre photo ↗</label></div></div>
+                <input id="portrait-input" type="file" accept="image/jpeg,image/png,image/webp" class="visually-hidden">
+                <label class="check-label"><input id="portrait-confirmed" type="checkbox">Cette image contient bien mon visage.</label>
+                <p class="field-hint">Vérifie la ressemblance du résultat avant de le valider.</p>
+                <label for="generation-headline">Texte souhaité sur la miniature <span class="optional">facultatif</span></label><input id="generation-headline" maxlength="100" placeholder="Laisser Codex proposer une accroche">
+              </section>
+              <label for="video-title">Le sujet de ta vidéo <span>*</span></label>
+              <textarea id="video-title" rows="2" maxlength="300" required placeholder="Ex. : L’IA en entreprise, de la démo au terrain">L’IA en entreprise : de la démo au terrain</textarea>
+              <label for="description">L’angle, le contexte <span class="optional">facultatif</span></label>
+              <textarea id="description" rows="3" maxlength="4000" placeholder="Ce que tu veux montrer, l’émotion, une scène…">Comment transformer une idée IA en outil vraiment utile au quotidien.</textarea>
+              <div class="field-heading"><span>Une direction visuelle</span><span class="optional">4 styles</span></div>
+              <div class="styles-grid" role="group" aria-label="Style de la miniature">
+                <button type="button" class="style-card selected" data-style="editorial" aria-pressed="true"><span class="style-art editorial"><i></i><b>Aa</b></span><span>Éditorial</span><span class="style-check">✓</span></button>
+                <button type="button" class="style-card" data-style="impact" aria-pressed="false"><span class="style-art impact"><b>WOW!</b><i></i></span><span>Impact</span><span class="style-check">✓</span></button>
+                <button type="button" class="style-card" data-style="cinema" aria-pressed="false"><span class="style-art cinema"><i></i><b>STORY</b></span><span>Cinéma</span><span class="style-check">✓</span></button>
+                <button type="button" class="style-card" data-style="minimal" aria-pressed="false"><span class="style-art minimal"><b>Less.</b><i></i></span><span>Minimal</span><span class="style-check">✓</span></button>
+              </div>
+              <div id="composition-media"><div class="field-heading"><span>Ton image <span class="optional">facultatif</span></span><button type="button" class="text-button hidden" id="remove-image">Retirer</button></div>
+              <label class="upload-zone" for="media-input" id="upload-zone"><span data-icon="upload"></span><strong id="media-label">Dépose une image ou une vidéo</strong><small>ou clique pour parcourir · JPG, PNG, WebP, MP4</small></label>
+              <input type="file" id="media-input" accept="image/png,image/jpeg,image/webp,video/mp4,video/webm,video/quicktime" class="visually-hidden">
+              <p class="field-hint">Une photo, un portrait ou une image créée avec ChatGPT.</p></div>
+              <button class="primary generate-button" type="submit" id="generate-button"><span data-icon="sparkles"></span>Générer mes 3 variantes<span>↗</span></button>
+              <p class="generation-caption">Image native Codex · utilise ton compte ChatGPT. Le brief et le portrait de référence sont transmis à OpenAI.</p><button type="button" class="text-button compose-only" id="compose-only">Composer avec le visuel actuel →</button>
+            </form>
+            <button class="chatgpt-card" id="prompt-button"><span class="chatgpt-symbol">✳</span><span><strong>Tu préfères passer par ChatGPT ?</strong><small>Copier le prompt, puis importer ton image</small></span><span>↗</span></button>
+          </section>
+
+          <section class="canvas-panel" aria-labelledby="canvas-heading">
+            <div class="canvas-heading"><div><span class="step-number light">02</span><h2 id="canvas-heading">Le terrain de jeu</h2><span id="save-status" class="save-status">Exemple à personnaliser</span></div><div class="canvas-actions"><button class="icon-button" id="preview-button" aria-label="Prévisualiser sur YouTube"><span data-icon="eye"></span></button><button class="secondary export-button" id="export-button"><span data-icon="download"></span>Exporter</button></div></div>
+            <div class="canvas-stage"><div class="stage-topline"><span><i class="live-dot"></i> APERÇU EN DIRECT</span><span>YOUTUBE · 16:9</span></div><div class="canvas-wrapper"><canvas id="main-canvas" width="1280" height="720" aria-label="Aperçu de la miniature sélectionnée"></canvas><span class="canvas-watermark" id="source-label">Composition locale</span></div><div class="stage-bottomline"><span><span data-icon="monitor"></span>1280 × 720 px</span><span><span id="composition-hint">Le texte reste modifiable ✎</span></span></div></div>
+            <div class="youtube-publish"><div><strong id="publish-target">Installer sur ta vidéo</strong><p id="publish-status">Importe un lien YouTube pour associer une vidéo.</p></div><button class="primary" id="review-button" disabled>Valider pour YouTube ↗</button></div>
+            <label class="check-label complete-option"><input id="complete-image" type="checkbox">Ce visuel est une miniature complète, sans texte ajouté.</label>
+            <div class="variants-heading"><h3>Trois pistes, à toi de choisir.</h3><span>CLIQUE POUR PERSONNALISER</span></div>
+            <div class="variants" id="variants" aria-label="Variantes de miniature"></div>
+            <section class="editor" aria-label="Personnaliser la variante sélectionnée"><div class="editor-top"><h3><span data-icon="edit"></span>La touche finale</h3><span id="variant-label">Variante 01</span></div><div class="editor-fields"><div class="headline-field"><label for="headline">L’accroche de ta miniature</label><textarea id="headline" rows="2" maxlength="100"></textarea></div><div class="palette-field"><label>La palette</label><div id="palettes" class="palettes" role="group" aria-label="Couleur de la variante"></div></div><div class="signature-field"><label for="signature">Ta signature</label><input id="signature" maxlength="35" placeholder="Nom de ta chaîne"></div></div><details class="advanced"><summary>Plus de réglages <span>+</span></summary><div class="advanced-content"><label for="eyebrow">Petit texte au-dessus de l’accroche</label><input id="eyebrow" maxlength="35"><label for="export-format">Format d’export</label><select id="export-format"><option value="png">PNG · qualité maximale</option><option value="jpeg">JPG · fichier plus léger</option></select><button class="secondary" id="api-button"><span data-icon="sparkles"></span>Générer un fond par API</button><small id="api-note">Option distincte de ChatGPT Pro. Une clé API et une facturation séparée sont nécessaires.</small></div></details></section>
+          </section>
+        </div>
+        <footer class="studio-footer"><span>FAIT POUR TES IDÉES. CONÇU POUR CRÉER.</span><span>Pas de score magique. Une bonne miniature, ça se teste.</span></footer>
+      </section>
+
+      <section id="library-view" class="view hidden"><div class="page-heading"><div><div class="eyebrow"><span></span> CHAQUE IDÉE A SA PLACE</div><h1>Ma bibliothèque<span>.</span></h1><p>Tes projets sont conservés dans ce navigateur, sur cet ordinateur.</p></div><button class="secondary" id="library-new"><span data-icon="plus"></span>Créer un projet</button></div><div class="library-toolbar"><label class="search"><span data-icon="search"></span><input id="library-search" type="search" placeholder="Retrouver une idée…" aria-label="Rechercher un projet"></label><span id="library-total"></span></div><div class="library-grid" id="library-grid"></div></section>
+
+      <section id="guide-view" class="view hidden"><div class="page-heading"><div><div class="eyebrow"><span></span> QUELQUES REPÈRES, PAS UNE RECETTE</div><h1>Le petit guide<span>.</span></h1><p>Du sujet de ta vidéo à une miniature que tu peux vraiment utiliser.</p></div></div><div class="guide-grid"><article><span>01 / LE BRIEF</span><h2>Une idée claire vaut mieux que dix effets.</h2><p>Indique le sujet et l’angle de ta vidéo. Le studio extrait trois accroches de ton titre, puis les met en page automatiquement. Tu peux réécrire chaque accroche.</p></article><article><span>02 / TON ABONNEMENT PRO</span><h2>Ton compte ChatGPT, via Codex.</h2><p>Connecte Codex avec ton compte ChatGPT dans les réglages du studio. Le bouton principal génère une image native, puis crée trois compositions. Avec un lien YouTube, Codex compose une miniature complète à partir de ton portrait de référence. Cette utilisation dépend des limites de ton abonnement. Le parcours manuel ChatGPT reste disponible.</p><button class="text-button" id="guide-prompt">Préparer un prompt ↗</button></article><article><span>03 / LE VISUEL</span><h2>Ta photo. Ton image. Ta vidéo.</h2><p>Importe une image ou sélectionne une image de ta vidéo locale. Le visuel est recadré en 16:9. Choisis un sujet placé à droite pour laisser respirer le texte à gauche.</p></article><article><span>04 / LA LECTURE</span><h2>Vois petit. Pense simple.</h2><p>Prévisualise ta miniature à la taille du fil YouTube. Quelques mots lisibles suffisent souvent. Une accroche doit représenter le contenu réel de la vidéo.</p><button class="text-button" id="guide-preview">Voir l’aperçu ↗</button></article><article><span>05 / L’EXPORT</span><h2>Prête pour la prochaine étape.</h2><p>Exporte en PNG ou JPG, en 1280 × 720 px. Le studio maintient le fichier sous 2 Mo. Après import d’un lien YouTube, vérifie ton visage, génère puis valide l’aperçu exact. Le bouton Installer envoie uniquement le fichier validé à la chaîne connectée. La connexion Google se configure dans Mon studio.</p></article><article><span>06 / TES CRÉATIONS</span><h2>Un studio local, à garder sous la main.</h2><p>Les projets et images restent dans le stockage de ce navigateur. Pense à exporter un projet JSON pour en garder une sauvegarde complète. Effacer les données du navigateur efface la bibliothèque.</p></article></div></section>
+    </main>
+  </div>
+
+  <dialog id="prompt-dialog"><div class="dialog-heading"><span class="dialog-icon">✳</span><button class="icon-button" data-close aria-label="Fermer"><span data-icon="close"></span></button></div><div class="eyebrow">AVEC TON ABONNEMENT CHATGPT PRO</div><h2>D’abord l’image.<br>Ensuite, ta touche.</h2><p>Le bouton principal génère directement avec Codex. Tu peux aussi copier ce prompt dans ChatGPT, puis importer le résultat.</p><label for="image-prompt">Ton prompt prêt à utiliser</label><textarea id="image-prompt" rows="8" readonly></textarea><div class="dialog-actions"><button class="primary" id="copy-prompt"><span data-icon="copy"></span>Copier le prompt</button><a class="secondary" href="https://chatgpt.com/" target="_blank" rel="noreferrer">Ouvrir ChatGPT ↗</a></div><p class="dialog-footnote">Aucune donnée du projet n’est envoyée en ouvrant ce lien.</p></dialog>
+
+  <dialog id="preview-dialog"><div class="dialog-heading"><h2>Le test du petit écran</h2><button class="icon-button" data-close aria-label="Fermer"><span data-icon="close"></span></button></div><p>Une simulation d’affichage, pour juger la lisibilité.</p><div class="youtube-preview"><div class="youtube-bar"><span class="yt-logo">▶</span>YouTube <span>FR</span></div><canvas id="youtube-canvas" width="1280" height="720"></canvas><div class="youtube-info"><span class="avatar">FM</span><div><h3 id="youtube-title"></h3><p id="youtube-channel">Ta chaîne</p><small>Aperçu fictif · aucune donnée de performance</small></div><span>⋮</span></div></div></dialog>
+
+  <dialog id="video-dialog"><div class="dialog-heading"><h2>Choisis ton image</h2><button class="icon-button" data-close aria-label="Fermer"><span data-icon="close"></span></button></div><p>Déplace la lecture pour trouver le moment qui raconte ta vidéo.</p><video id="source-video" controls muted playsinline preload="metadata"></video><button class="primary" id="capture-frame"><span data-icon="image"></span>Utiliser cette image</button></dialog>
+
+  <dialog id="settings-dialog"><div class="dialog-heading"><h2>Ton studio, tes fichiers.</h2><button class="icon-button" data-close aria-label="Fermer"><span data-icon="close"></span></button></div><p>Les projets sont enregistrés dans ce navigateur. Une sauvegarde JSON conserve le brief, les variantes et le visuel.</p><section class="youtube-settings"><h3>YouTube <span id="youtube-connection-status"></span></h3><p>Connecte la chaîne qui possède tes vidéos pour installer les miniatures validées.</p>
+<details id="google-guide"><summary>Configurer Google, étape par étape</summary><ol>
+<li>Dans <a href="https://console.cloud.google.com/" target="_blank" rel="noreferrer">Google Cloud ↗</a>, crée ou sélectionne un projet.</li>
+<li>Active <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noreferrer">YouTube Data API v3 ↗</a> pour ce projet.</li>
+<li>Dans Google Auth Platform, configure l’audience et l’écran de consentement. En mode test, ajoute ton adresse Google parmi les utilisateurs test.</li>
+<li>Crée un client OAuth de type <strong>Application de bureau</strong>, puis télécharge son fichier JSON.</li>
+<li>Importe ce fichier ci-dessous, puis clique sur Connecter YouTube. Choisis la bonne chaîne et autorise les accès demandés.</li></ol>
+<p>En mode test Google, la connexion peut expirer après 7 jours : reconnecte simplement YouTube. Le fichier client et les jetons restent dans le dossier privé du studio, hors de la bibliothèque et des sauvegardes de projets.</p></details>
+<div class="settings-actions"><label class="secondary" for="google-client">Importer le fichier client Google JSON</label><input id="google-client" type="file" accept="application/json,.json" class="visually-hidden"><button class="primary" id="youtube-connect" disabled>Connecter YouTube</button><a id="youtube-auth-link" class="secondary hidden" target="_blank" rel="noreferrer">Continuer la connexion Google ↗</a><button class="text-button hidden" id="youtube-disconnect">Déconnecter de ce studio</button></div>
+<p class="field-hint">Accès : lire les vidéos et gérer leur envoi, dont les miniatures. Déconnecter ici efface les jetons locaux. Pour révoquer l’autorisation Google : <a href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">accès de ton compte ↗</a>.</p></section>
+<div class="settings-actions"><button class="primary" id="auth-button">Connecter mon compte ChatGPT</button><button class="secondary" id="backup-project"><span data-icon="download"></span>Sauvegarder le projet courant</button><label class="secondary" for="restore-project"><span data-icon="upload"></span>Restaurer un projet JSON</label><input id="restore-project" type="file" accept="application/json,.json" class="visually-hidden"></div><div class="settings-note"><strong>ChatGPT Pro & API</strong><p>Le studio lance Codex localement, qui utilise sa connexion officielle à ChatGPT. Le studio ne lit ni ne stocke tes jetons de connexion. L’API à clé est une option séparée, facturée à l’usage, jamais utilisée en remplacement automatique.</p><span id="settings-api-status"></span></div></dialog>
+
+  <dialog id="review-dialog"><div class="dialog-heading"><h2>La dernière vérification</h2><button class="icon-button" data-close aria-label="Fermer"><span data-icon="close"></span></button></div><p>Ce fichier précis sera envoyé à cette vidéo. Vérifie les mots, la ressemblance et la lisibilité.</p><img id="review-image" alt="Miniature exacte à valider"><h3 id="review-title"></h3><a id="review-video" target="_blank" rel="noreferrer">Voir la vidéo YouTube ↗</a><p id="review-status" role="status"></p><label class="check-label"><input type="checkbox" id="review-confirmed">Je valide ce visuel pour cette vidéo.</label><div class="dialog-actions"><button id="approve-button" class="secondary" disabled>Valider ce visuel</button><button id="install-button" class="primary" disabled>Installer sur YouTube</button></div><button class="text-button hidden" id="review-connect">Configurer la connexion YouTube ↗</button><p class="dialog-footnote">Validation valable 30 minutes. Un résultat d’envoi incertain demande une vérification dans YouTube Studio.</p></dialog>
+
+  <dialog id="api-dialog"><div class="dialog-heading"><h2>Générer un fond par API</h2><button class="icon-button" data-close aria-label="Fermer"><span data-icon="close"></span></button></div><p id="api-dialog-description"></p><p>Un seul visuel sera généré, puis utilisé dans les trois compositions. Le titre et le contexte seront transmis au fournisseur configuré. Ton image importée n’est pas transmise.</p><div class="dialog-actions"><button class="primary" id="confirm-api">Générer 1 image</button><button class="secondary" data-close>Annuler</button></div></dialog>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <div id="error-banner" class="error-banner hidden" role="alert"><span id="error-message"></span><button class="icon-button" id="dismiss-error" aria-label="Fermer l’erreur">×</button></div>
+</body>
+</html>

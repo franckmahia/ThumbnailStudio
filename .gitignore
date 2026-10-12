@@ -1,0 +1,23 @@
+.runtime/
+.env
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+.DS_Store
+
+# Variantes d'environnement et fichiers de credentials locaux
+.env.*
+!.env.example
+client*.json
+tokens*.json
+*.pem
+*.key
+
+# Gouvernance locale et preuves contenant des informations de compte
+/AGENTS.md
+/ORIGINE.md
+/examples/connexion-google/avertissement-google.jpg
+/examples/connexion-google/client-a-creer.jpg
+/examples/connexion-google/youtube-studio-apres-installation.jpg
+/examples/youtube-miniatures-installees.jpg
